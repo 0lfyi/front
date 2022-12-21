@@ -27,7 +27,7 @@ FROM nginx:1.23.0
 
 COPY --from=builder /app/build /app
 
-COPY docker/nginx.conf /etc/nginx/nginx.conf
+COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
