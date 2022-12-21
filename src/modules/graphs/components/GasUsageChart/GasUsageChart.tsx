@@ -14,10 +14,11 @@ const margin = { top: 20, right: 20, bottom: 30, left: 30 };
 const xAccessor = (value: [number, number]): number => value[0];
 const yAccessor = (value: [number, number]): number => value[1];
 
-// const domainX = d3.extent(data.User, xAccessor) as [number, number];
-const domainX: [number, number] = [1635348876077, 1671203938993];
+const domainX = d3.extent(data.User, xAccessor) as [number, number];
+// const domainX: [number, number] = [1635348876077, 1671203938993];
 
 const domainY = d3.extent(data.User, yAccessor) as [number, number];
+
 
 
 const y = d3.scaleLinear()

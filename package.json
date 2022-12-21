@@ -6,6 +6,7 @@
     "@apollo/client": "^3.7.3",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@influxdata/giraffe": "^2.38.1",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.0",
     "@testing-library/jest-dom": "^5.16.5",
