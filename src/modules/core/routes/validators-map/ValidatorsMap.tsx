@@ -2,14 +2,14 @@ import { Component, createRef } from 'react';
 import { gql } from '@apollo/client';
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
+import Typography from '@mui/material/Typography';
 import Leaflet, { CircleMarker, Map } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import styled from '@emotion/styled';
 import apolloClient from '../../../apollo';
 
 const Container = styled.div(() => ({
-  width: 800,
-  height: 600,
+  flex: 1,
 }));
 
 class ValidatorsMap extends Component {
@@ -51,8 +51,9 @@ class ValidatorsMap extends Component {
 
   public render() {
     return (
-      <Box p={2}>
-        <Paper style={{ overflow: 'hidden' }}>
+      <Box p={2} width="100%" height="calc(100vh - 64px)" display="flex" flexDirection="column">
+        <Typography variant="h3">Validators</Typography>
+        <Paper style={{ overflow: 'hidden', flex: 1, display: 'flex' }}>
           <Container ref={this.mapContainer} />
         </Paper>
       </Box>
