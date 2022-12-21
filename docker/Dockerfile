@@ -7,6 +7,8 @@ FROM node:19.0.1 AS builder
 ARG CI_COMMIT_SHA=""
 ENV REACT_APP_CI_COMMIT_SHA $CI_COMMIT_SHA
 
+ENV REACT_APP_API_HOST "https://api.0l.fyi"
+
 RUN npm install -g npm
 
 WORKDIR /app
