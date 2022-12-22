@@ -1,14 +1,39 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
+import { Table } from "@influxdata/giraffe"
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Typography from '@mui/material/Typography';
 import { Config, Plot } from "@influxdata/giraffe";
-import { DATA } from './data'
-
-const getDataTable = () => DATA;
+import { newTable } from './newTable';
 
 const GasUsage: FC = () => {
-  const table = getDataTable();
+  const [table, setTable] = useState<Table>();
+
+  useEffect(() => {
+    const load = async () => {
+      const res = await fetch('https://api.0l.fyi/avg-gas-cost');
+      const body: {
+        _time: number[];
+        _value: number[];
+        volume: number[];
+        type: string[];
+      } = await res.json();
+      console.log(body);
+
+      const data = newTable(body._value.length)
+        .addColumn('_time', 'dateTime:RFC3339', 'time', body._time)
+        .addColumn('_value', 'system', 'number', body._value)
+        .addColumn('type', 'string', 'string', body.type);
+
+      setTable(data);
+    };
+
+    load();
+  }, []);
+
+  if (!table) {
+    return null;
+  }
 
   const config: Config = {
     table,
