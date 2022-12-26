@@ -7,6 +7,7 @@ import Divider from "@mui/material/Divider";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import PublicIcon from '@mui/icons-material/Public';
+import SavingsIcon from '@mui/icons-material/Savings';
 import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
 import ListItemButton from "@mui/material/ListItemButton";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
@@ -84,6 +85,12 @@ const Drawer: FC<Props> = ({ open, toggleDrawer }) => {
             <PublicIcon />
           </ListItemIcon>
           <ListItemText primary="Validators Map" />
+        </DrawerLink>
+        <DrawerLink to="/community-wallets">
+          <ListItemIcon>
+            <SavingsIcon />
+          </ListItemIcon>
+          <ListItemText primary="Community Wallets" />
         </DrawerLink>
       </List>
 
