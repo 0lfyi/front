@@ -49,9 +49,9 @@ const CommunityWallets: FC = () => {
   }
 
   return (
-    <Box p={2}>
+    <Box p={2} sx={{ width: "100%" }}>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+        <Table size="small" aria-label="community wallets">
           <TableHead>
             <TableRow>
               <TableCell>Address</TableCell>
