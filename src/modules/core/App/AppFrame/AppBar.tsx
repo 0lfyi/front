@@ -4,6 +4,7 @@ import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import GitHubIcon from '@mui/icons-material/GitHub';
+import TerminalIcon from '@mui/icons-material/Terminal';
 import Box from "@mui/material/Box";
 
 const Container = styled(MuiAppBar)(({ theme }) => ({
@@ -35,6 +36,15 @@ const AppBar: FC = () => {
           rel="noopener noreferrer"
         >
           <GitHubIcon />
+        </IconButton>
+        <IconButton
+          color="inherit"
+          component="a"
+          href="https://api.0l.fyi/graphql"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <TerminalIcon />
         </IconButton>
       </Toolbar>
     </Container>
