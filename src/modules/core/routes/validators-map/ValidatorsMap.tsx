@@ -1,92 +1,76 @@
-import { Component, createRef } from 'react';
-import { gql } from '@apollo/client';
-import Paper from "@mui/material/Paper";
+import { FC, useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import Typography from '@mui/material/Typography';
-import Leaflet, { CircleMarker, Map } from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-import styled from '@emotion/styled';
+import CircularProgress from '@mui/material/CircularProgress';
+import { gql } from '@apollo/client';
 import apolloClient from '../../../apollo';
+import Map from './Map';
 
-const Container = styled.div(() => ({
-  flex: 1,
-}));
+const ValidatorsMap: FC = () => {
+  const [loaded, setLoaded] = useState(false);
+  const [locations, setLocations] = useState<{
+    vfn: [number, number][];
+    validators: [number, number][];
+  }>();
 
-class ValidatorsMap extends Component {
-  private mapContainer = createRef<HTMLDivElement>();
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await apolloClient.query({
+          query:  gql`
+            query ValidatorPresences {
+              validatorPresences {
+                vfn
+                validator
+              }
+            }
+          `
+        });
 
-  private map?: Map;
+        const locations: {
+          vfn: [number, number][];
+          validators: [number, number][];
+        } = {
+          vfn: [],
+          validators: []
+        };
 
-  private markers: CircleMarker[] = [];
+        for (const it of res.data.validatorPresences) {
+          if (it.vfn) {
+            locations.vfn.push(it.vfn);
+          }
+          if (it.validator) {
+            locations.validators.push(it.validator);
+          }
+        } 
 
-  private static VFN_MARKER_OPTIONS = {
-    fillColor: '#ff0000',
-    fillOpacity: 0.5,
-    radius: 4,
-    stroke: false,
-  };
+        setLocations(locations);
+      } finally {
+        setLoaded(true);
+      }
+    };
 
-  private static VALIDATOR_MARKER_OPTIONS = {
-    fillColor: '#0000ff',
-    fillOpacity: 0.5,
-    radius: 4,
-    stroke: false,
-  };
+    load();
+  }, []);
 
-  public componentDidMount(): void {
-    this.map = Leaflet.map(this.mapContainer.current!).setView([0, 0], 2);
-    Leaflet.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      // maxZoom: 19,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(this.map);
-
-    this.loadData();
-  }
-
-  public componentWillUnmount(): void {
-    if (this.map) {
-      this.map.remove();
-    }
-  }
-
-  public render() {
+  if (!loaded) {
     return (
-      <Box p={2} width="100%" height="calc(100vh - 64px)" display="flex" flexDirection="column">
-        <Typography variant="h3">Validators</Typography>
-        <Paper style={{ overflow: 'hidden', flex: 1, display: 'flex' }}>
-          <Container ref={this.mapContainer} />
-        </Paper>
+      <Box alignItems="center" justifyContent="center" width="100%" display="flex">
+        <CircularProgress />
       </Box>
     );
   }
 
-  private async loadData() {
-    const res = await apolloClient.query({
-      query:  gql`
-        query ValidatorPresences {
-          validatorPresences {
-            vfn
-            validator
-          }
-        }
-      `
-    });
-
-    for (const marker of this.markers) {
-      marker.remove();
-    }
-
-    const newMarkers: CircleMarker[] = [];
-
-    for (const it of res.data.validatorPresences) {
-      if (it.vfn) {
-        newMarkers.push(new CircleMarker(it.vfn, ValidatorsMap.VFN_MARKER_OPTIONS).addTo(this.map!));
-      }
-      if (it.validator) {
-        newMarkers.push(new CircleMarker(it.validator, ValidatorsMap.VALIDATOR_MARKER_OPTIONS).addTo(this.map!));
-      }
-    }
+  if (locations) {
+    return (
+      <Map locations={locations} />
+    );
   }
-}
+
+  return (
+    <div>
+      <p>nothing to show</p>
+    </div>
+  );
+};
 
 export default ValidatorsMap;

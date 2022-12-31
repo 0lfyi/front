@@ -79,7 +79,7 @@ const GasUsage: FC = () => {
 
   return (
     <Box p={2} width="100%" height="calc(100vh - 64px)" display="flex" flexDirection="column">
-      <Typography variant="h3">Gas Used</Typography>
+      <Typography variant="h3">Gas Usage</Typography>
       <Paper style={{ overflow: 'hidden', flex: 1, display: 'flex' }}>
         <div
           style={{

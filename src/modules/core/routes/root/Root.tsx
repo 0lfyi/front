@@ -1,11 +1,9 @@
 import type { FC } from "react";
+import { Navigate } from "react-router";
 
 const Root: FC = () => {
-
   return (
-    <div>
-      <h1>Root</h1>
-    </div>
+    <Navigate to="/gas-usage" replace={true} />
   );
 };
 
