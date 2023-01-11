@@ -96,7 +96,7 @@ const CommunityWallets: FC = () => {
                     </Link>
                   </TableCell>
                   <TableCell align="right">
-                    {gasBalance && `${numberFormatter.format(parseInt(gasBalance.amount, 10) / 10e6)} GAS`}
+                    {gasBalance && `${numberFormatter.format(parseInt(gasBalance.amount, 10) / 1e6)} GAS`}
                   </TableCell>
                 </TableRow>
               );
